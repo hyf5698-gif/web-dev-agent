@@ -1,0 +1,45 @@
+name: 使用体验与评价
+description: 分享哪里好用、哪里不顺手，以及生成结果是否符合你的需求。
+title: "[体验反馈] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎分享真实体验，简短几句也有帮助。
+
+        **Issue 会公开。** 请勿上传 API 密钥、登录文件、Cookie 或账号信息。截图请先遮挡姓名、邮箱、私人需求和本机路径；无需上传整个 `data/` 目录或完整对话记录。
+  - type: textarea
+    id: scenario
+    attributes:
+      label: 你用它做了什么？
+      description: 例如做什么网页、进行到哪个步骤，或体验了哪个示例。
+      placeholder: 我想做一个中文作品集，试用了方向预览和继续修改……
+    validations:
+      required: true
+  - type: dropdown
+    id: overall
+    attributes:
+      label: 整体感受（可选）
+      description: 按这次实际体验选择即可。
+      options:
+        - 好用
+        - 还可以
+        - 需要改进
+    validations:
+      required: false
+  - type: textarea
+    id: helpful
+    attributes:
+      label: 哪些地方对你有帮助？（可选）
+      placeholder: 比如方向确认、手机预览、继续对话修改，或某个具体结果。
+  - type: textarea
+    id: improvement
+    attributes:
+      label: 哪些地方希望改进？（可选）
+      description: 生成页面的风格、阅读或操作体验也可以直接说，最好举一个具体例子。
+      placeholder: 我希望……，因为在……时遇到了……
+  - type: textarea
+    id: context
+    attributes:
+      label: 补充说明或截图（可选）
+      description: 可以补充系统、浏览器、Codex CLI 版本或已遮挡私人信息的截图。请勿附上密钥和登录信息。

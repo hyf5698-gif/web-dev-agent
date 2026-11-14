@@ -1,0 +1,53 @@
+name: 问题报告
+description: 报告启动失败、流程异常、预览或导出等可复现的问题。
+title: "[问题] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请尽量提供能复现问题的最小例子；不确定原因也可以提交。
+
+        **Issue 会公开。** 请勿上传 API 密钥、登录文件（如 `auth.json`）、Cookie、账号信息或完整环境变量。错误信息和截图请先遮挡姓名、邮箱、私人需求与本机路径；不要直接上传整个 `data/` 目录或完整运行日志。
+  - type: textarea
+    id: steps
+    attributes:
+      label: 如何复现？
+      description: 从启动或打开项目开始，按顺序写下操作；需要需求文本时请换成不含私人内容的例子。
+      placeholder: |
+        1. 运行 npm start，打开工作台。
+        2. 新建项目并输入……
+        3. 点击……后出现问题。
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际发生了什么？
+      description: 可以粘贴已脱敏的短错误信息，并说明每次发生还是偶尔发生。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 你预期会发生什么？
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 不知道的项目可写“不清楚”。版本号可分别用 node --version 和 codex --version 查看；无需提供登录状态或账号信息。
+      placeholder: |
+        操作系统及版本：
+        Node.js 版本：
+        Codex CLI 版本：
+        浏览器及版本：
+        本项目版本或提交编号：
+        启动方式（npm / pnpm / 双击 cmd）：
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 截图或其他线索（可选）
+      description: 仅附与问题有关、已遮挡私人信息的截图或短错误片段。请勿附上 API 密钥、登录文件或完整日志。
