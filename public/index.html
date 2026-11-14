@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f6f8">
+  <title>网页开发 Agent · 本地工作台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%234e56df'/%3E%3Cpath d='m18 15-8 9 8 9m12-18 8 9-8 9M27 11l-6 26' stroke='white' fill='none' stroke-width='2.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-mobile-view="chat">
+  <a class="skip-link" href="#message-input">跳到需求输入</a>
+  <header class="app-header">
+    <a class="brand" href="/" aria-label="网页开发 Agent 首页"><span class="brand-icon" aria-hidden="true">⌘</span><span>网页开发 Agent<small>本地工作台</small></span></a>
+    <div class="header-context">先看设计方向，再把喜欢的样子做成网页。</div>
+    <div class="engine-area"><span class="engine-status checking" id="engine-status"><i></i><span id="engine-label">正在检查引擎</span></span><button class="icon-button" id="refresh-engine" type="button" aria-label="刷新引擎状态" title="刷新引擎状态">↻</button></div>
+  </header>
+  <nav class="mobile-navigation" aria-label="工作台区域"><button type="button" data-mobile-target="projects">项目</button><button type="button" data-mobile-target="workspace">设计与预览</button><button type="button" data-mobile-target="chat" class="active">需求对话</button></nav>
+  <div class="workbench">
+    <aside class="projects-panel panel" aria-label="项目列表">
+      <div class="sidebar-heading"><h1>我的项目</h1><button class="icon-button" id="reload-projects" type="button" aria-label="刷新项目列表" title="刷新项目列表">↻</button></div>
+      <button class="new-project-button" id="new-project" type="button"><span aria-hidden="true">＋</span> 新建项目</button>
+      <div class="project-list" id="project-list"><p class="sidebar-empty">正在读取项目…</p></div>
+      <div class="sidebar-footer"><span class="local-dot" aria-hidden="true"></span><div>在你的电脑上运行<small>使用现有 Codex 账号</small></div><span class="version">本地版</span></div>
+    </aside>
+
+    <main class="workspace-panel panel" id="workspace" aria-label="项目工作区">
+      <div class="workspace-heading"><div class="project-heading"><span class="project-symbol" aria-hidden="true">▧</span><div><h2 id="project-name">未选择项目</h2><p id="project-meta">设计方向、网页预览和执行记录</p></div></div><div class="project-heading-actions"><span class="status-pill" id="project-status">等待开始</span><button id="redesign-project" class="text-button" type="button" hidden>重新定设计方向</button></div></div>
+      <div class="workflow-steps" aria-label="制作步骤"><span id="workflow-design" class="active"><b>1</b> 确认设计方向</span><i aria-hidden="true">→</i><span id="workflow-build"><b>2</b> 完善网页与交互</span></div>
+      <div class="workspace-toolbar"><div class="view-tabs" role="tablist" aria-label="工作区视图"><button class="active" id="tab-design" role="tab" aria-selected="true" aria-controls="view-design" data-view="design" type="button"><span aria-hidden="true">◈</span> 设计方向</button><button id="tab-preview" role="tab" aria-selected="false" aria-controls="view-preview" data-view="preview" type="button"><span aria-hidden="true">▣</span> 预览</button><button id="tab-source" role="tab" aria-selected="false" aria-controls="view-source" data-view="source" type="button"><span aria-hidden="true">〈〉</span> 源码 <span class="tab-count" id="file-count">0</span></button><button id="tab-events" role="tab" aria-selected="false" aria-controls="view-events" data-view="events" type="button"><span aria-hidden="true">≋</span> 执行记录 <span class="event-dot" id="events-dot" hidden></span></button></div><div class="workspace-tools"><button id="export-project" class="text-button" type="button" disabled>下载源码</button><button id="refresh-preview" class="icon-button" type="button" aria-label="刷新网页预览" title="刷新预览" disabled>↻</button></div></div>
+      <div class="run-banner" id="run-banner" hidden><span class="run-indicator" aria-hidden="true"></span><div><strong id="run-phase">正在执行</strong><p id="run-message"></p></div><button class="text-button" id="show-events" type="button">查看记录</button></div>
+      <div class="engine-notice" id="engine-notice" hidden><span aria-hidden="true">!</span><p id="engine-message"></p></div>
+      <section class="workspace-view design-view" id="view-design" role="tabpanel" aria-labelledby="tab-design">
+        <div class="design-heading"><div><p class="design-eyebrow">第一步 · 先把样子定下来</p><h3>设计方向</h3><p id="design-description">描述需求后，先看电脑首屏、页面中段和手机效果，再决定是否开始完善网页。</p></div><span id="design-state" class="design-state">等待需求</span></div>
+        <div class="design-empty" id="design-empty"><span aria-hidden="true">◈</span><h4 id="design-empty-title">先聊聊你想做的网页</h4><p id="design-empty-description">告诉 Agent 用途、内容和喜欢的风格，它会先制作设计图供你确认。</p><button class="secondary-button" id="start-design" type="button">去描述需求</button></div>
+        <div id="design-content" hidden>
+          <div class="design-image-grid" id="design-images" aria-label="设计效果图"></div>
+          <p class="design-image-note">设计图用于确认视觉方向，实际网页的内容和交互会在下一步完善。点击图片可查看原图。</p>
+          <div class="design-issues" id="design-issues" role="status" hidden><strong>设计还需要补齐</strong><ul id="design-issue-list"></ul><button class="text-button" id="retry-design-images" type="button" hidden>重新加载设计图</button></div>
+          <div class="design-plan" id="design-plan"></div>
+          <div class="design-decision"><div><strong id="design-decision-title">这个方向合适吗？</strong><p id="design-decision-note">确认后，Agent 会按这些设计图完善网页。</p></div><div class="design-decision-actions"><button class="secondary-button" id="adjust-design" type="button">调整设计方向</button><button class="primary-button" id="approve-design" type="button" disabled>按此方向完善网页</button></div></div>
+        </div>
+      </section>
+      <section class="workspace-view preview-view" id="view-preview" role="tabpanel" aria-labelledby="tab-preview" hidden>
+        <div class="preview-address"><span class="address-dot" aria-hidden="true"></span><span id="preview-address">本地项目预览</span><span class="sandbox-note">隔离预览</span></div>
+        <div class="preview-stage"><div class="preview-empty" id="preview-empty"><div class="empty-window" aria-hidden="true"><span></span><span></span><span></span><div>＋</div></div><h3 id="preview-empty-title">你的下一个网页，从这里开始。</h3><p id="preview-empty-description">先确认设计方向。Agent 完善网页后，实际页面会显示在这里。</p><button id="empty-create" class="secondary-button" type="button">新建一个项目</button></div><iframe id="preview-frame" title="生成网页的隔离预览" sandbox="allow-scripts allow-forms allow-same-origin" referrerpolicy="no-referrer" hidden></iframe></div>
+      </section>
+      <section class="workspace-view source-view" id="view-source" role="tabpanel" aria-labelledby="tab-source" hidden><aside class="file-sidebar"><div class="file-list-heading">项目文件</div><div id="file-list" class="file-list"><p class="file-empty">尚无文件</p></div></aside><div class="code-pane"><div class="code-toolbar"><span id="selected-file">选择一个文件查看源码</span><button id="copy-source" class="text-button" type="button" disabled>复制源码</button></div><pre id="source-content" tabindex="0"><code id="source-code">生成的真实文件会出现在左侧。</code></pre></div></section>
+      <section class="workspace-view events-view" id="view-events" role="tabpanel" aria-labelledby="tab-events" hidden><div class="events-heading"><h3>执行记录</h3><p>这里展示引擎返回的活动、状态和错误。</p></div><ol id="event-list" class="event-list"><li class="events-empty">尚无执行记录。发送需求后，进度会实时显示在这里。</li></ol></section>
+      <div class="workspace-footnote"><span id="connection-note">等待连接本地服务</span><span>文件由本地引擎实际生成</span></div>
+    </main>
+
+    <aside class="chat-panel panel" aria-label="需求对话">
+      <div class="chat-heading"><div><span class="agent-avatar" aria-hidden="true">✳</span><div><h2>需求与修改</h2><p id="chat-model">Codex 开发引擎</p></div></div><span class="live-label" id="chat-status">待连接</span></div>
+      <div class="chat-scroll" id="chat-scroll"><div class="chat-welcome" id="chat-welcome"><p class="welcome-eyebrow">先看设计，再开始制作。</p><h3>你想制作什么网页？</h3><p>说明用途、内容和喜欢的风格。Agent 先制作设计图；你确认方向后，再完善网页与交互。</p><div class="suggestions"><button type="button" data-suggestion="为一个帮助自由职业者整理客户项目的工具制作产品落地页。请使用中文，清晰介绍用途、核心功能和开始体验的入口，桌面与手机都要好用。"><span>▤</span><div><strong>产品落地页</strong><small>把一个产品想法，做成可展示的页面</small></div><b aria-hidden="true">↗</b></button><button type="button" data-suggestion="做一个摄影师的中文个人作品集网页，包含简介、作品分类和联系方式。使用干净的版式，便于之后换成我的照片。"><span>◫</span><div><strong>个人作品集</strong><small>展示作品、经历和联系方式</small></div><b aria-hidden="true">↗</b></button><button type="button" data-suggestion="为一家社区咖啡馆制作中文官网，包含店铺介绍、咖啡菜单、营业时间和位置说明。整体温暖有特色，使用静态内容，不接入外部服务。"><span>☕</span><div><strong>店铺介绍页</strong><small>让访客快速了解一家小店</small></div><b aria-hidden="true">↗</b></button></div><p class="suggestion-note">点击只会填入输入框，由你决定何时发送。</p></div><div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div><div class="design-chat-notice" id="design-chat-notice" hidden><strong>设计方向等你确认</strong><p>先看三张设计图和设计说明，再决定下一步。</p><button class="secondary-button" id="review-design" type="button">查看设计方向</button></div><div id="approvals" class="approvals"></div></div>
+      <form class="composer" id="message-form"><div class="composer-mode" id="composer-mode" hidden><span>正在调整设计方向</span><button class="text-button" id="cancel-design-mode" type="button">返回普通修改</button></div><div class="composer-box"><label class="sr-only" for="message-input">描述你的网页需求，或提出修改</label><textarea id="message-input" rows="3" maxlength="12000" placeholder="描述你的网页需求，或继续提出修改…"></textarea><div class="composer-actions"><span id="composer-note">先检查引擎状态</span><button type="button" class="stop-button" id="stop-run" hidden><span aria-hidden="true">■</span> 停止</button><button class="send-button" id="send-message" type="submit" disabled><span id="send-label">发送需求</span><span aria-hidden="true">↑</span></button></div></div><div class="composer-footer"><span>Enter 发送 · Shift + Enter 换行</span><span id="input-count">0 / 12000</span></div></form>
+    </aside>
+  </div>
+  <dialog id="project-dialog" class="project-dialog"><form id="project-form"><div class="dialog-heading"><h2>新建项目</h2><button class="icon-button" id="close-dialog" type="button" aria-label="关闭新建项目窗口">×</button></div><p>给这个网页项目起一个方便辨认的名字。</p><label for="new-project-name">项目名称</label><input id="new-project-name" maxlength="80" autocomplete="off" placeholder="例如：我的产品官网" required><p class="dialog-error" id="project-error" role="alert" hidden></p><div class="dialog-actions"><button class="secondary-button" id="cancel-dialog" type="button">取消</button><button class="primary-button" id="confirm-project" type="submit">创建项目</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
